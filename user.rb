@@ -7,7 +7,7 @@ class User
   field :phone, type: Phone
   filed :position, type: String
   filed :status, type: Boolean
-  field :photo, type: Moped::BSON::Binary
+  # field :photo, type: Moped::BSON::Binary
   field :domain_login, type: String
   field :wish_users, type: Array
 end
