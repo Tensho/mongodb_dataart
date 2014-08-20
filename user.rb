@@ -5,8 +5,8 @@ class User
   field :birthday, type: Date
   field :email, type: String
   field :phone, type: Phone
-  filed :position, type: String
-  filed :status, type: Boolean
+  field :position, type: String
+  field :status, type: Boolean
   # field :photo, type: Moped::BSON::Binary
   field :domain_login, type: String
   field :wish_users, type: Array
