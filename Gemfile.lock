@@ -13,6 +13,8 @@ GEM
     bson (2.3.0)
     builder (3.2.2)
     connection_pool (2.0.0)
+    faker (1.4.3)
+      i18n (~> 0.5)
     i18n (0.6.11)
     json (1.8.1)
     minitest (5.4.0)
@@ -35,4 +37,5 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  faker
   mongoid
