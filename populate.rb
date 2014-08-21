@@ -7,6 +7,7 @@ Mongoid.load!("config/mongoid.yml")
 
 require_relative 'initializers/faker_position'
 require_relative 'user'
+require_relative 'project'
 
 10.times do
   phone = Phone.new work: Faker::PhoneNumber.phone_number,
