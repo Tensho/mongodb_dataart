@@ -8,8 +8,10 @@ Mongoid.load!("config/mongoid.yml")
 require_relative 'initializers/faker_position'
 require_relative 'user'
 require_relative 'project'
+require_relative 'task'
 
 # TODO: clean db before population
+# TODO: bulk insert
 
 10.times do
   phone = Phone.new work: Faker::PhoneNumber.phone_number,
@@ -38,6 +40,19 @@ end
                  budget: Faker::Number.between(500, 10000),
                  manager: User.all.sample,
                  participants: User.all.sample(rand(10) + 1)
+end
+
+10.times do
+  start_date = Faker::Date.backward
+  end_date = start_date + rand(365)
+
+  Task.create name: Faker::Hacker.say_something_smart,
+              start_date: start_date,
+              end_date: end_date,
+              status: ['opened', 'in_progress', 'done', 'reopened', 'closed'].sample,
+              description: Faker::Lorem.sentence,
+              project: Project.all.sample,
+              responsible: User.all.sample
 end
 
 
