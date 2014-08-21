@@ -11,5 +11,6 @@ class User
   field :status, type: Boolean
   # field :photo, type: Moped::BSON::Binary
   field :domain_login, type: String
-  field :wish_users, type: Array
+
+  embeds_many :wish_users, class_name: 'User'
 end
