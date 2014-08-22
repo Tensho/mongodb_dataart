@@ -9,6 +9,7 @@ require_relative 'initializers/faker_position'
 require_relative 'user'
 require_relative 'project'
 require_relative 'task'
+require_relative 'duration'
 
 # TODO: clean db before population
 # TODO: bulk insert
@@ -53,6 +54,18 @@ end
               description: Faker::Lorem.sentence,
               project: Project.all.sample,
               responsible: User.all.sample
+end
+
+10.times do
+  date = Faker::Date.backward
+  time = date.to_time + rand(60 * 60 * 60)
+
+  Duration.create description: Faker::Lorem.paragraph,
+                  date: date,
+                  time: time,
+                  user: User.all.sample,
+                  project: Project.all.sample,
+                  task: Task.all.sample
 end
 
 
