@@ -11,7 +11,7 @@ require_relative 'project'
 require_relative 'task'
 require_relative 'duration'
 
-# TODO: clean db before population
+Mongoid.purge!
 # TODO: bulk insert
 
 10.times do
