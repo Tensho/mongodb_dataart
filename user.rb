@@ -9,7 +9,7 @@ class User
   field :phone, type: Phone
   field :position, type: String
   field :status, type: Boolean
-  # field :photo, type: Moped::BSON::Binary
+  field :photo, type: BSON::Binary
   field :domain_login, type: String
 
   has_and_belongs_to_many :wish_users, class_name: 'User'

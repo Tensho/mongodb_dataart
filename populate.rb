@@ -39,7 +39,7 @@ batch_insert(User, 1) do
     phone: phone,
     position: Faker::Name.position,
     status: [true, false].sample,
-    # photo: BSON::Binary.new,
+    photo: BSON::Binary.new(Random.new.bytes(250)),
     domain_login: Faker::Internet.domain_name,
     wish_users: User.all.sample(rand(10))
   }
