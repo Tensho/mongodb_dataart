@@ -7,6 +7,6 @@ class Project
   field :status, type: String
   field :budget, type: Integer
 
-  embeds_one :manager, class_name: 'User'
-  embeds_many :participants, class_name: 'User'
+  has_one :manager, class_name: 'User'
+  has_many :participants, class_name: 'User'
 end

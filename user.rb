@@ -12,5 +12,5 @@ class User
   # field :photo, type: Moped::BSON::Binary
   field :domain_login, type: String
 
-  embeds_many :wish_users, class_name: 'User'
+  has_many :wish_users, class_name: 'User'
 end

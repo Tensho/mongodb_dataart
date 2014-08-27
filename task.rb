@@ -7,6 +7,6 @@ class Task
   field :status, type: String
   field :description, type: String
 
-  embeds_one :project
-  embeds_one :responsible, class_name: 'User'
+  has_one :project
+  has_one :responsible, class_name: 'User'
 end

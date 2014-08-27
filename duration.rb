@@ -5,7 +5,7 @@ class Duration
   field :date, type: Date
   field :time, type: Time
 
-  embeds_one :user
-  embeds_one :project
-  embeds_one :task
+  has_one :user
+  has_one :project
+  has_one :task
 end
