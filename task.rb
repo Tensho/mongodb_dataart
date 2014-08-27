@@ -7,6 +7,8 @@ class Task
   field :status, type: String
   field :description, type: String
 
-  has_one :project
-  has_one :responsible, class_name: 'User'
+  belongs_to :project
+  belongs_to :responsible, class_name: 'User'
+
+  # has_many :durations
 end

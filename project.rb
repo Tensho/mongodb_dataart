@@ -7,6 +7,9 @@ class Project
   field :status, type: String
   field :budget, type: Integer
 
-  has_one :manager, class_name: 'User'
-  has_many :participants, class_name: 'User'
+  belongs_to :manager, class_name: 'User', inverse_of: :managed_projects
+  has_and_belongs_to_many :participants, class_name: 'User', inverse_of: :participating_projects
+
+  # has_many :tasks
+  # has_many :durations
 end
