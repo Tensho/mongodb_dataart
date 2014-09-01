@@ -23,23 +23,28 @@ end
 
 BATCH_SIZE = 1000
 
-def batch_insert(model, n)
+def batch_insert(model, n, fast_save = false)
   logger.info("Insert #{n * BATCH_SIZE} #{model.to_s.pluralize}") do
     n.times do
       collection = []
 
       logger.info("Collect #{n} batch")
       BATCH_SIZE.times do
-        collection << yield
+        if fast_save
+          model_attributes = yield
+          model.create(model_attributes)
+        else
+          collection << yield
+        end
       end
 
       logger.info("Save #{n} batch")
-      model.create(collection)
+      model.create(collection) unless fast_save
     end
   end
 end
 
-batch_insert(User, 1) do
+batch_insert(User, 1, true) do
   phone = Phone.new work: Faker::PhoneNumber.phone_number,
                     home: Faker::PhoneNumber.phone_number,
                     mobile: Faker::PhoneNumber.phone_number
