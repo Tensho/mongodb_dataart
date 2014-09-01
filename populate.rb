@@ -1,3 +1,9 @@
+require 'logger'
+
+def logger
+  @logger ||= Logger.new(STDOUT)
+end
+
 require 'bundler/setup'
 Bundler.require
 
@@ -11,19 +17,25 @@ require_relative 'project'
 require_relative 'task'
 require_relative 'duration'
 
-Mongoid.purge!
+logger.info('Clean Mongo') do
+  Mongoid.purge!
+end
 
 BATCH_SIZE = 1000
 
 def batch_insert(model, n)
-  n.times do
-    collection = []
+  logger.info("Insert #{n * BATCH_SIZE} #{model.to_s.pluralize}") do
+    n.times do
+      collection = []
 
-    BATCH_SIZE.times do
-      collection << yield
+      logger.info("Collect #{n} batch")
+      BATCH_SIZE.times do
+        collection << yield
+      end
+
+      logger.info("Save #{n} batch")
+      model.create(collection)
     end
-
-    model.create(collection)
   end
 end
 
@@ -88,3 +100,5 @@ batch_insert(Duration, 1) do
     task: Task.all.sample
   }
 end
+
+logger.close
