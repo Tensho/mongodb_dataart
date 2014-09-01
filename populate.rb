@@ -12,10 +12,10 @@ ENV['MONGOID_ENV'] = 'development'
 Mongoid.load!("config/mongoid.yml")
 
 require_relative 'initializers/faker_position'
-require_relative 'user'
-require_relative 'project'
-require_relative 'task'
-require_relative 'duration'
+require_relative 'models/user'
+require_relative 'models/project'
+require_relative 'models/task'
+require_relative 'models/duration'
 
 logger.info('Clean Mongo') do
   Mongoid.purge!
