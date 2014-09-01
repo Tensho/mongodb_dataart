@@ -44,7 +44,7 @@ def batch_insert(model, n, fast_save = false)
   end
 end
 
-batch_insert(User, 1, true) do
+batch_insert(User, 100, true) do
   phone = Phone.new work: Faker::PhoneNumber.phone_number,
                     home: Faker::PhoneNumber.phone_number,
                     mobile: Faker::PhoneNumber.phone_number
@@ -62,7 +62,7 @@ batch_insert(User, 1, true) do
   }
 end
 
-batch_insert(Project, 1) do
+batch_insert(Project, 10) do
   start_date = Faker::Date.backward
   end_date = start_date + rand(365)
 
@@ -77,7 +77,7 @@ batch_insert(Project, 1) do
   }
 end
 
-batch_insert(Task, 1) do
+batch_insert(Task, 200) do
   start_date = Faker::Date.backward
   end_date = start_date + rand(365)
 
@@ -92,7 +92,7 @@ batch_insert(Task, 1) do
   }
 end
 
-batch_insert(Duration, 1) do
+batch_insert(Duration, 1000) do
   date = Faker::Date.backward
   time = date.to_time + rand(60 * 60 * 60)
 
