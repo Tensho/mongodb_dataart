@@ -23,25 +23,18 @@ end
 
 BATCH_SIZE = 1000
 
-def batch_insert(model, n, fast_save = false)
-  logger.info("Insert #{n * BATCH_SIZE} #{model.to_s.pluralize}") do
+def batch_insert(model, n)
+  logger.info("#{n * BATCH_SIZE} #{model.to_s.pluralize} inserted") do
     n.times do |i|
       collection = []
 
-      logger.info(fast_save ? "Collect and fast save #{i} batch" : "Collect #{i} batch")
+      logger.info("#{i} batch collected")
       BATCH_SIZE.times do
-        if fast_save
-          model_attributes = yield
-          model.create(model_attributes)
-        else
-          collection << yield
-        end
+        collection << yield
       end
 
-      unless fast_save
-        logger.info("Save #{i} batch")
-        model.create(collection)
-      end
+      logger.info("#{i} batch saved")
+      model.create(collection)
     end
   end
 end
