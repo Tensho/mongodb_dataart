@@ -53,9 +53,11 @@ batch_insert(User, 100) do
     status: [true, false].sample,
     photo: BSON::Binary.new(Random.new.bytes(250)),
     domain_login: Faker::Internet.domain_name,
-    wish_users: User.all.sample(rand(10))
+    wish_user_ids: User.pluck(:id).sample(rand(10))
   }
 end
+
+user_ids = User.pluck(:id)
 
 batch_insert(Project, 10) do
   start_date = Faker::Date.backward
@@ -67,10 +69,12 @@ batch_insert(Project, 10) do
     end_date: end_date,
     status: ['opened', 'closed', 'deferred'].sample,
     budget: Faker::Number.between(500, 10000),
-    manager: User.all.sample,
-    participants: User.all.sample(rand(10) + 1)
+    manager_id: user_ids.sample,
+    participant_ids: user_ids.sample(rand(10) + 1)
   }
 end
+
+project_ids = Project.pluck(:id)
 
 batch_insert(Task, 200) do
   start_date = Faker::Date.backward
@@ -82,10 +86,12 @@ batch_insert(Task, 200) do
     end_date: end_date,
     status: ['opened', 'in_progress', 'done', 'reopened', 'closed'].sample,
     description: Faker::Lorem.sentence,
-    project: Project.all.sample,
-    responsible: User.all.sample
+    project_id: user_ids.sample,
+    responsible_id: project_ids.sample
   }
 end
+
+task_ids = Task.pluck(:id)
 
 batch_insert(Duration, 1000) do
   date = Faker::Date.backward
@@ -95,9 +101,9 @@ batch_insert(Duration, 1000) do
     description: Faker::Lorem.paragraph,
     date: date,
     time: time,
-    user: User.all.sample,
-    project: Project.all.sample,
-    task: Task.all.sample
+    user: user_ids.sample,
+    project: project_ids.sample,
+    task: task_ids.sample
   }
 end
 
