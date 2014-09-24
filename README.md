@@ -22,6 +22,6 @@ Used dependencies:
 * [faker](https://github.com/stympy/faker) - Ruby fake data generator
 
 ### List of required requests and the rationale for each index on created collections
-`queries.js`
+`queries`
 
 [Archive](http://phabricator.dataart.net)

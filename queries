@@ -1,0 +1,17 @@
+use pm
+
+// 1. Get user by domain login.
+db.users.findOne({
+  'domain_login': 'sawayn.net'
+})
+
+// Add index for domain login.
+// This index can prevent the above query on domain login from scanning the whole collection to return the results.
+db.users.ensureIndex({
+     "domain_login": 1
+});
+
+// Boosted
+db.users.findOne({
+  'domain_login': 'sawayn.net'
+})
