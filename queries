@@ -1,17 +1,26 @@
 use pm
 
+// ================================================================================
 // 1. Get user by domain login.
+// ================================================================================
 db.users.findOne({
   'domain_login': 'sawayn.net'
 })
 
-// Add index for domain login.
+// Add single field index for domain login.
 // This index can prevent the above query on domain login from scanning the whole collection to return the results.
 db.users.ensureIndex({
      "domain_login": 1
-});
+})
 
 // Boosted
 db.users.findOne({
   'domain_login': 'sawayn.net'
+})
+
+// ================================================================================
+// 2. Get users with summer birthday.
+// ================================================================================
+db.users.find({
+  '$where': '5 <= this.birthday.getMonth() && this.birthday.getMonth() <= 7'
 })
