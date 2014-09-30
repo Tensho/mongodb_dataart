@@ -21,6 +21,26 @@ db.users.findOne({
 // ================================================================================
 // 2. Get users with summer birthday.
 // ================================================================================
-db.users.find({
-  '$where': '5 <= this.birthday.getMonth() && this.birthday.getMonth() <= 7'
-})
+db.users.aggregate([
+  {
+    $project: {
+      full_name: 1,
+      birthday: 1,
+      birthday_month: { $month: "$birthday" },
+      email: 1,
+      phone: 1,
+      position: 1,
+      status: 1,
+      photo: 1,
+      domain_login: 1
+    }
+  },
+  {
+    $match: {
+      birthday_month: { $gte: 5, $lte: 7 }
+    }
+  }
+])
+
+// Can't use any index, because match stage is not on the first place
+
