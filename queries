@@ -72,3 +72,20 @@ db.users.aggregate([
 
 // Can't use any index, because match stage is not on the first place
 
+// ================================================================================
+// 4. Get users with name "Arnold" and last name starting with "Z".
+// ================================================================================
+db.users.find({
+  full_name: /Arnold Z/
+})
+
+// Add single field index for full name.
+// MongoDB matches the regular expression against the values in the index, which can be faster than a collection scan. Further optimization can occur if the regular expression is a “prefix expression”, which means that all potential matches start with the same string. This allows MongoDB to construct a “range” from that prefix and only match against those values from the index that fall within that range.
+db.users.ensureIndex({
+  'full_name': 1
+})
+
+// Boosted
+db.users.find({
+  full_name: /^Arnold Z/
+})
