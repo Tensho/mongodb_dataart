@@ -89,3 +89,27 @@ db.users.ensureIndex({
 db.users.find({
   full_name: /^Arnold Z/
 })
+
+// ================================================================================
+// 5. Get the most popular wish user id.
+// ================================================================================
+db.users.aggregate([
+ {
+     $unwind: "$wish_user_ids"
+ },
+ {
+     $group: { _id: "$wish_user_ids", count: { $sum: 1 } }
+ },
+ {
+     $sort: { count: -1 }
+ },
+ {
+     $limit: 1
+ },
+ {
+     $project: { _id: 1 }
+ }
+])
+
+// Can't use any index, because there is no match, sort, skip or limit stage on the first place.
+
