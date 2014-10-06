@@ -10,7 +10,7 @@ db.users.findOne({
 // Add single field index for domain login.
 // This index can prevent the above query on domain login from scanning the whole collection to return the results.
 db.users.ensureIndex({
-     "domain_login": 1
+  'domain_login': 1
 })
 
 // Boosted
@@ -42,7 +42,7 @@ db.users.aggregate([
   }
 ])
 
-// Can't use any index, because match stage is not on the first place
+// Can't use any index, because match stage is not on the first place.
 
 // ================================================================================
 // 3. Get users with tomorrow birthday.
@@ -70,7 +70,7 @@ db.users.aggregate([
   }
 ])
 
-// Can't use any index, because match stage is not on the first place
+// Can't use any index, because match stage is not on the first place.
 
 // ================================================================================
 // 4. Get users with name "Arnold" and last name starting with "Z".
