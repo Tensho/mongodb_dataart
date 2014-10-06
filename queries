@@ -131,3 +131,37 @@ db.projects.find({
   status: 'opened'
 })
 
+// ================================================================================
+// 7. Get total budget of closed projects.
+// ================================================================================
+db.projects.aggregate([
+  {
+      $match: { status: 'closed' }
+  },
+  {
+      $group: { _id: null, total_budget: { $sum: "$budget" } }
+  },
+  {
+      $project: { _id: 0, total_budget: 1 }
+  }
+])
+
+// Add single field index for status.
+// This index can prevent the above query on status from scanning the whole collection to return the results.
+db.projects.ensureIndex({
+  'status': 1
+})
+
+// Boosted
+db.projects.aggregate([
+  {
+      $match: { status: 'closed' }
+  },
+  {
+      $group: { _id: null, total_budget: { $sum: "$budget" } }
+  },
+  {
+      $project: { _id: 0, total_budget: 1 }
+  }
+])
+
