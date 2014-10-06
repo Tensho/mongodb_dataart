@@ -113,3 +113,21 @@ db.users.aggregate([
 
 // Can't use any index, because there is no match, sort, skip or limit stage on the first place.
 
+// ================================================================================
+// 6. Get open projects.
+// ================================================================================
+db.projects.find({
+  status: 'opened'
+})
+
+// Add single field index for status.
+// This index can prevent the above query on status from scanning the whole collection to return the results.
+db.projects.ensureIndex({
+  'status': 1
+})
+
+// Boosted
+db.projects.find({
+  status: 'opened'
+})
+
