@@ -254,3 +254,29 @@ db.tasks.ensureIndex({
 db.tasks.find({
   $text: { $search: 'deadline' }
 })
+
+// ================================================================================
+// 13. Get opened, in progress, reopened tasks for user with start date sort.
+// ================================================================================
+db.tasks.find({
+  status: { $in: ['opened', 'in_progress', 'reopened'] },
+  responsible_id: ObjectId("540ea11774656e2936f00100")
+}).sort({
+  start_date: 1
+})
+
+// Add compound index for status, responsible_id and start_date.
+// Put status on the last place for better performance, because of range type query ($in).
+db.tasks.ensureIndex({
+  'responsible_id': 1,
+  'start_date': 1,
+  'status': 1
+})
+
+// Boosted
+db.tasks.find({
+  status: { $in: ['opened', 'in_progress', 'reopened'] },
+  responsible_id: ObjectId("540ea11774656e2936f00100")
+}).sort({
+  start_date: 1
+})
