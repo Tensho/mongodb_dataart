@@ -245,7 +245,6 @@ db.tasks.find({
 
 // Single field index will not optimize query, because of regular expression is not “prefix expression”, but word can appear at any place in the description.
 // Add text index for description.
-
 db.tasks.ensureIndex({
   description: "text"
 })
@@ -280,3 +279,20 @@ db.tasks.find({
 }).sort({
   start_date: 1
 })
+
+// ================================================================================
+// 14. Get project id with the most quantity of the tasks.
+// ================================================================================
+db.tasks.aggregate([
+  {
+    $group: { _id: "$project_id", count: { $sum: 1 } }
+  },
+  {
+    $sort: { count: - 1}
+  },
+  {
+    $limit: 1
+  }
+])
+
+// Can't use any index, because there is no match, sort, skip or limit stage on the first place.
