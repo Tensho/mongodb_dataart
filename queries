@@ -199,3 +199,21 @@ db.projects.aggregate([
       $project: { _id: 0, projects: "$projects" }
   }
 ])
+
+// ================================================================================
+// 10. Get number of closed tasks.
+// ================================================================================
+db.tasks.count({
+  status: 'closed'
+})
+
+// Add single field index for status.
+// This index can prevent the above query on status from scanning the whole collection to return the results.
+db.tasks.ensureIndex({
+  'status': 1
+})
+
+// Boosted
+db.tasks.count({
+  status: 'closed'
+})
