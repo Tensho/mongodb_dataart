@@ -217,3 +217,21 @@ db.tasks.ensureIndex({
 db.tasks.count({
   status: 'closed'
 })
+
+// ================================================================================
+// 11. Get in progress tasks.
+// ================================================================================
+db.tasks.find({
+  status: 'in_progress'
+})
+
+// Add single field index for status.
+// This index can prevent the above query on status from scanning the whole collection to return the results.
+db.tasks.ensureIndex({
+  'status': 1
+})
+
+// Boosted
+db.tasks.find({
+  status: 'in_progress'
+})
