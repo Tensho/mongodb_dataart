@@ -296,3 +296,45 @@ db.tasks.aggregate([
 ])
 
 // Can't use any index, because there is no match, sort, skip or limit stage on the first place.
+
+// ================================================================================
+// 15. Get project total spent time.
+// ================================================================================
+db.durations.aggregate([
+  {
+    $match: { project_id: ObjectId("540ea12074656e2936a50d00") }
+  },
+  {
+    $project: { time_diff: { $subtract: [ "$time", "$date" ] } }
+  },
+  {
+    $group: { _id: null, total_time: { $sum: "$time_diff" } }
+  },
+  {
+    $project: { _id: 0, total_time: "$total_time" }
+  }
+  // TODO: Implement with MapRecude to convert milliseconds to
+  // Inspired: http://stackoverflow.com/questions/22698265/in-mongodb-project-clause-how-can-i-convert-date-from-milliseconds-to-isodate
+])
+
+// Add single field index for project_id.
+// This index can prevent the above query on project_id from scanning the whole collection to return the results.
+db.durations.ensureIndex({
+  project_id: 1
+})
+
+// Boosted
+db.durations.aggregate([
+  {
+    $match: { project_id: ObjectId("540ea12074656e2936a50d00") }
+  },
+  {
+    $project: { time_diff: { $subtract: [ "$time", "$date" ] } }
+  },
+  {
+    $group: { _id: null, total_time: { $sum: "$time_diff" } }
+  },
+  {
+    $project: { _id: 0, total_time: "$total_time" }
+  }
+])
