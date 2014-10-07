@@ -235,3 +235,22 @@ db.tasks.ensureIndex({
 db.tasks.find({
   status: 'in_progress'
 })
+
+// ================================================================================
+// 12. Get tasks with 'deadline' word in description.
+// ================================================================================
+db.tasks.find({
+  description: /\deadline\b/
+})
+
+// Single field index will not optimize query, because of regular expression is not “prefix expression”, but word can appear at any place in the description.
+// Add text index for description.
+
+db.tasks.ensureIndex({
+  description: "text"
+})
+
+// Boosted
+db.tasks.find({
+  $text: { $search: 'deadline' }
+})
