@@ -101,9 +101,9 @@ batch_insert(Duration, 1000) do
     description: Faker::Lorem.paragraph,
     date: date,
     time: time,
-    user: user_ids.sample,
-    project: project_ids.sample,
-    task: task_ids.sample
+    user_id: user_ids.sample,
+    project_id: project_ids.sample,
+    task_id: task_ids.sample
   }
 end
 
