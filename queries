@@ -165,3 +165,16 @@ db.projects.aggregate([
   }
 ])
 
+// ================================================================================
+// 8. Get average participants in project.
+// ================================================================================
+db.projects.aggregate([
+  {
+    $project: { count_participants: { $size: "$participant_ids" } }
+  },
+  {
+    $group: { _id: null, avg_participants: { $avg: "$count_participants" } }
+  }
+])
+
+// Can't use any index, because there is no match, sort, skip or limit stage on the first place.
