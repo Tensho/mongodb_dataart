@@ -136,13 +136,13 @@ db.projects.find({
 // ================================================================================
 db.projects.aggregate([
   {
-      $match: { status: 'closed' }
+    $match: { status: 'closed' }
   },
   {
-      $group: { _id: null, total_budget: { $sum: "$budget" } }
+    $group: { _id: null, total_budget: { $sum: "$budget" } }
   },
   {
-      $project: { _id: 0, total_budget: 1 }
+    $project: { _id: 0, total_budget: 1 }
   }
 ])
 
@@ -155,13 +155,13 @@ db.projects.ensureIndex({
 // Boosted
 db.projects.aggregate([
   {
-      $match: { status: 'closed' }
+    $match: { status: 'closed' }
   },
   {
-      $group: { _id: null, total_budget: { $sum: "$budget" } }
+    $group: { _id: null, total_budget: { $sum: "$budget" } }
   },
   {
-      $project: { _id: 0, total_budget: 1 }
+    $project: { _id: 0, total_budget: 1 }
   }
 ])
 
