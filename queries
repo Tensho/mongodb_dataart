@@ -178,3 +178,24 @@ db.projects.aggregate([
 ])
 
 // Can't use any index, because there is no match, sort, skip or limit stage on the first place.
+
+// ================================================================================
+// 9. Get projects name of the most loaded participant.
+// ================================================================================
+db.projects.aggregate([
+  {
+      $unwind: "$participant_ids"
+  },
+  {
+      $group: { _id: "$participant_ids", projects: { $push: "$name" }, quantity: { $sum: 1 } }
+  },
+  {
+      $sort: { quantity: -1 }
+  },
+  {
+      $limit: 1
+  },
+  {
+      $project: { _id: 0, projects: "$projects" }
+  }
+])
