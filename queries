@@ -382,3 +382,28 @@ db.durations.aggregate(
 )
 
 // Can't use any index, because there is no match, sort, skip or limit stage on the first place.
+
+// ================================================================================
+// 18. Get month and year which spent most of the time.
+// ================================================================================
+db.durations.aggregate(
+  [
+    {
+      $project: { month: { $month: "$date" }, year: { $year: "$date" }, time_diff: { $subtract: [ "$time", "$date" ] } }
+    },
+    {
+      $group: { _id: { year: "$year", month: "$month" }, total_time: { $sum: "$time_diff" } }
+    },
+    {
+      $sort: { total_time: -1 }
+    },
+    {
+      $limit: 1
+    }
+  ],
+  {
+    allowDiskUse: true
+  }
+)
+
+// Can't use any index, because there is no match, sort, skip or limit stage on the first place.
