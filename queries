@@ -357,3 +357,28 @@ db.durations.aggregate(
 )
 
 // Can't use any index, because there is no match, sort, skip or limit stage on the first place.
+
+// ================================================================================
+// 17. Get user who spent the most time.
+// ================================================================================
+db.durations.aggregate(
+  [
+    {
+      $project: { user_id: 1, time_diff: { $subtract: [ "$time", "$date" ] } }
+    },
+    {
+      $group: { _id: "$user_id", total_time: { $sum: "$time_diff" } }
+    },
+    {
+      $sort: { total_time: -1 }
+    },
+    {
+      $limit: 1
+    }
+  ],
+  {
+    allowDiskUse: true
+  }
+)
+
+// Can't use any index, because there is no match, sort, skip or limit stage on the first place.
