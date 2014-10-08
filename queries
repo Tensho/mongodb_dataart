@@ -338,3 +338,22 @@ db.durations.aggregate([
     $project: { _id: 0, total_time: "$total_time" }
   }
 ])
+
+// ================================================================================
+// 16. Get average time per task by projects.
+// ================================================================================
+db.durations.aggregate(
+  [
+    {
+      $project: { project_id: 1, task_id: 1, time_diff: { $subtract: [ "$time", "$date" ] } }
+    },
+    {
+      $group: { _id: { project_id: "$project_id", task_id: "$task_id" }, avg_time: { $avg: "$time_diff" } }
+    }
+  ],
+  {
+    allowDiskUse: true
+  }
+)
+
+// Can't use any index, because there is no match, sort, skip or limit stage on the first place.
