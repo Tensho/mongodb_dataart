@@ -52,7 +52,22 @@ db.users.aggregate([
     $project: {
       full_name: 1,
       birthday: 1,
-      is_tomorrow: { $eq: [ { $dayOfYear: "$birthday" }, { $add: [ { $dayOfYear: new Date }, 1 ] } ] },
+      is_tomorrow: {
+        $eq: [
+          { $dayOfYear: "$birthday" },
+          {
+            $mod: [
+              {
+                $add: [
+                  { $dayOfYear: new Date },
+                  1
+                ]
+              },
+              365
+            ]
+          }
+        ]
+      },
       email: 1,
       phone: 1,
       position: 1,
